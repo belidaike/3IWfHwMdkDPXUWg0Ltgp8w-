@@ -1,38 +1,11 @@
-"use client";
+"use client"
 
-import React, { useState, ReactNode } from 'react';
+import * as CollapsiblePrimitive from "@radix-ui/react-collapsible"
 
-interface CollapsibleProps {
-  children: ReactNode[]; // Accepting multiple children
-}
+const Collapsible = CollapsiblePrimitive.Root
 
-export const Collapsible: React.FC<CollapsibleProps> = ({ children }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const CollapsibleTrigger = CollapsiblePrimitive.CollapsibleTrigger
 
-  const toggleOpen = () => {
-    setIsOpen(!isOpen);
-  };
+const CollapsibleContent = CollapsiblePrimitive.CollapsibleContent
 
-  // Check if children are provided
-  if (!children || children.length < 2) {
-    console.error("Collapsible component expects at least two children: a trigger and content.");
-    return null; // Or render a fallback UI
-  }
-
-  return (
-    <div>
-      <div onClick={toggleOpen} style={{ cursor: 'pointer' }}>
-        {children[0]} {/* Trigger content */}
-      </div>
-      {isOpen && <div>{children.slice(1)}</div>} {/* Collapsible content */}
-    </div>
-  );
-};
-
-export const CollapsibleTrigger: React.FC<{ children: ReactNode }> = ({ children }) => (
-  <>{children}</>
-);
-
-export const CollapsibleContent: React.FC<{ children: ReactNode }> = ({ children }) => (
-  <>{children}</>
-);
+export { Collapsible, CollapsibleTrigger, CollapsibleContent }
