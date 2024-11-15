@@ -1,4 +1,3 @@
-// lib/fetchData.ts
 import { useEffect, useState } from 'react';
 
 interface PostItem {
@@ -15,7 +14,7 @@ interface PostItem {
 }
 
 
-export const useGetPostItems = (category: string) => {
+export const useGetPostItems = (allcategory: string) => {
     const [loading, setLoading] = useState(false);
     const [postItems, setPostItems] = useState<PostItem[]>([]);
 
@@ -23,8 +22,7 @@ export const useGetPostItems = (category: string) => {
         const getPostItems = async () => {
             setLoading(true);
             try {
-                const encodedCategory = encodeURIComponent(category);
-                const res = await fetch(`/api/postitems?category=${encodedCategory}`);
+                const res = await fetch(`/api/postitems?allcategory=${allcategory}`);
                 const data = await res.json();
                 if (data.error) throw new Error(data.error);
                 setPostItems(data);
@@ -36,12 +34,10 @@ export const useGetPostItems = (category: string) => {
         };
 
         getPostItems();
-    }, [category]);
+    }, [allcategory]);
 
     return { loading, postItems };
 };
-
-
 
 // New Fetch Function for Single Post Item
 export const fetchPost = async (id: string): Promise<PostItem | null> => {

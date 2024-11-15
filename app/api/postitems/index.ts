@@ -51,7 +51,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             await parseFormData(req);
 
             // Extract fields from the request body
-            const { pname, brand, allcategory, category, description, price, alink } = req.body as any;
+            const { pname, brand, allcategory, category, date, description, price, alink } = req.body as any;
             const image = (req as any).file;
 
             // Ensure the image exists
@@ -70,6 +70,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 allcategory,
                 category,
                 description,
+                date,
                 price,
                 alink,
                 img: imageUrl,
