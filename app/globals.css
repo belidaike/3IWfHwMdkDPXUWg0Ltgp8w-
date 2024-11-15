@@ -99,3 +99,176 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+
+/* Container for all products */
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Individual product card */
+.product-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-card, #ffffff);
+  border-radius: 12px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover effect for product card */
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Image styling */
+.product-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Product information styling */
+.product-info {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* Product name styling */
+.product-info h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary, #333);
+  margin: 0;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Product description styling */
+.product-info p {
+  font-size: 14px;
+  color: var(--text-secondary, #666);
+  margin: 0;
+  text-align: center;
+}
+
+/* Product price styling */
+.product-info p:last-of-type {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent-color, #e74c3c);
+}
+
+.nopost {
+  width: 100%;
+  margin: 0 auto;
+}
+
+
+
+/* AntiAgingPostPage.css */
+
+/* Container Styling */
+.post-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+/* Loading and Not Found States */
+.loading,
+.not-found {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+/* Header Flex Layout */
+.post-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+/* Image Styling */
+.post-image {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Product Information */
+.post-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.post-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.post-brand {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Details Section */
+.post-details {
+  margin-top: 20px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.post-description {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+.post-category,
+.post-price {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #444;
+}
+
+/* Buy Now Button Styling */
+/* .buy-now-button {
+  display: inline-block;
+  text-align: center;
+  background-color: #0070f3;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: background-color 0.3s;
+} */
+
+/* .buy-now-button:hover {
+  background-color: #005bb5;
+} */

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from "react";
+import { useRouter, useParams } from "next/navigation";
 
 interface FormData {
     pname: string;
@@ -12,106 +12,113 @@ interface FormData {
     date: string;
     price: string;
     alink: string;
-    img: File | null;
+    img: File | string | null;
 }
 
 export default function PostItemForm() {
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const postId = searchParams.get("id");
+    const { id: postId } = useParams();
 
     const [formData, setFormData] = useState<FormData>({
-        pname: '',
-        brand: '',
-        allcategory: '',
-        category: '',
-        description: '',
-        date: '',
-        price: '',
-        alink: '',
+        pname: "",
+        brand: "",
+        allcategory: "",
+        category: "",
+        description: "",
+        date: "",
+        price: "",
+        alink: "",
         img: null,
     });
 
     const [categories, setCategories] = useState<string[]>([]);
     const [isEditMode, setIsEditMode] = useState(false);
+    const [isDataFetched, setIsDataFetched] = useState(false);
 
     const allCategories = {
-        'Tech and Gadgets':
-            [
-                'Mobile Phones',
-                'Laptops and Computers',
-                'Smartwatches',
-                'Audio and Headphones'
-            ],
-        'Beauty and Skincare':
-            [
-                'Skincare Essentials',
-                'Makeup Tools & Kits',
-                'Anti-Aging Products',
-                'Hair Care'
-            ],
-        // 'Fashion and Accessories':
-        //     ['Clothing',
-        //         'Footwear',
-        //         'Jewelry & Watches',
-        //         'Bags & Wallets'
-        //     ],
-        // 'Health and Fitness':
-        //     [
-        //         'Fitness Equipment',
-        //         'Supplements & Vitamins',
-        //         'Wearable Tech',
-        //         'Yoga & Meditation'
-        //     ],
-        // 'Home and Kitchen Appliances':
-        //     [
-        //         'Kitchen Appliances',
-        //         'Home Essentials',
-        //         'Cleaning Supplies',
-        //         'Smart Home Devices'
-        //     ],
+        "Beauty and Skincare": [
+            "Skincare Essentials",
+            "Makeup Tools & Kits",
+            "Anti-Aging Products",
+            "Hair Care",
+        ],
+        "Fashion and Accessories": [
+            "Clothing",
+            "Footwear",
+            "Jewelry & Watches",
+            "Bags & Wallets",
+        ],
+        "Health and Fitness": [
+            "Fitness Equipment",
+            "Supplements & Vitamins",
+            "Wearable Tech",
+            "Yoga & Meditation",
+        ],
+        "Home and Kitchen Appliances": [
+            "Kitchen Appliances",
+            "Home Essentials",
+            "Cleaning Supplies",
+            "Smart Home Devices",
+        ],
+        "Tech and Gadgets": [
+            "Mobile Phones",
+            "Laptops & Computers",
+            "Smartwatches",
+            "Audio & Headphones",
+        ],
     };
 
-    // Fetch data by ID if it's in edit mode
     useEffect(() => {
-        if (postId) {
+        if (postId && typeof postId === "string" && !isDataFetched) {
             setIsEditMode(true);
             fetchPostData(postId);
         }
-    }, [postId]);
+    }, [postId, isDataFetched]);
 
     const fetchPostData = async (id: string) => {
         try {
             const response = await fetch(`/api/postitems/${id}`);
-            const postData = await response.json();
-            setFormData({
-                pname: postData.pname || '',
-                brand: postData.brand || '',
-                allcategory: postData.allcategory || '',
-                category: postData.category || '',
-                description: postData.description || '',
-                date: postData.date || '',
-                price: postData.price || '',
-                alink: postData.alink || '',
-                img: null,
-            });
-            if (postData.allcategory in allCategories) {
-                setCategories(allCategories[postData.allcategory as keyof typeof allCategories]);
+            if (response.ok) {
+                const postData = await response.json();
+                setFormData({
+                    pname: postData.pname || "",
+                    brand: postData.brand || "",
+                    allcategory: postData.allcategory || "",
+                    category: postData.category || "",
+                    description: postData.description || "",
+                    date: postData.date || "",
+                    price: postData.price || "",
+                    alink: postData.alink || "",
+                    img: postData.img || null,
+                });
+
+                if (postData.allcategory in allCategories) {
+                    setCategories(
+                        allCategories[postData.allcategory as keyof typeof allCategories]
+                    );
+                }
+
+                setIsDataFetched(true);
             } else {
-                setCategories([]);
+                console.error("Failed to fetch post data.");
             }
         } catch (error) {
-            console.error("Failed to fetch post data:", error);
+            console.error("Error fetching post data:", error);
         }
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const handleChange = (
+        e: React.ChangeEvent<
+            HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+        >
+    ) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
 
-        if (name === 'allcategory') {
-            setCategories(allCategories[value as keyof typeof allCategories] || []);
-            setFormData((prev) => ({ ...prev, category: '' }));
+        if (name === "allcategory") {
+            const mainCategory = value as keyof typeof allCategories;
+            setCategories(allCategories[mainCategory] || []);
+            setFormData((prev) => ({ ...prev, category: "" }));
         }
     };
 
@@ -125,11 +132,14 @@ export default function PostItemForm() {
 
         const formPayload = new FormData();
         Object.keys(formData).forEach((key) => {
-            formPayload.append(key, (formData as any)[key]);
+            const value = (formData as any)[key];
+            formPayload.append(key, value instanceof File ? value : String(value));
         });
 
-        const method = isEditMode ? 'PUT' : 'POST';
-        const url = isEditMode ? `/api/postitems/${postId}` : '/api/postitems';
+        const method = isEditMode ? "PUT" : "POST";
+        const url = isEditMode
+            ? `/api/postitems/${postId}`
+            : "/api/postitems";
 
         const response = await fetch(url, {
             method,
@@ -137,17 +147,21 @@ export default function PostItemForm() {
         });
 
         if (response.ok) {
-            alert(isEditMode ? 'Item updated successfully!' : 'Item created successfully!');
-            router.push('/postitemform'); // Redirect to a dashboard or listing page
+            alert(
+                isEditMode ? "Item updated successfully!" : "Item created successfully!"
+            );
+            router.push("/");
         } else {
-            alert(isEditMode ? 'Failed to update item.' : 'Failed to create item.');
+            alert(
+                isEditMode ? "Failed to update item." : "Failed to create item."
+            );
         }
     };
 
     return (
         <div className="max-w-md mx-auto p-4">
             <h1 className="text-xl font-bold mb-4">
-                {isEditMode ? 'Edit Post Item' : 'Create Post Item'}
+                {isEditMode ? "Edit Post Item" : "Create Post Item"}
             </h1>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <input
@@ -182,7 +196,6 @@ export default function PostItemForm() {
                         </option>
                     ))}
                 </select>
-
                 <select
                     name="category"
                     value={formData.category}
@@ -197,7 +210,6 @@ export default function PostItemForm() {
                         </option>
                     ))}
                 </select>
-
                 <textarea
                     name="description"
                     placeholder="Description"
@@ -225,6 +237,13 @@ export default function PostItemForm() {
                     required
                 />
                 <input
+                    type="file"
+                    name="img"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="w-full border p-2"
+                />
+                <input
                     type="text"
                     name="date"
                     placeholder="Product Date"
@@ -233,15 +252,11 @@ export default function PostItemForm() {
                     className="w-full border p-2"
                     required
                 />
-                <input
-                    type="file"
-                    name="img"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    className="w-full border p-2"
-                />
-                <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded">
-                    {isEditMode ? 'Update' : 'Submit'}
+                <button
+                    type="submit"
+                    className="bg-blue-500 text-white py-2 px-4 rounded"
+                >
+                    {isEditMode ? "Update" : "Submit"}
                 </button>
             </form>
         </div>

@@ -7,6 +7,7 @@ export interface IPostItem extends Document {
     allcategory: string;
     category: string;
     description: string;
+    date: string;
     price: string;
     alink: string;
     img: string;
@@ -18,6 +19,7 @@ const postItemSchema = new Schema<IPostItem>({
     allcategory: { type: String, required: true },
     category: { type: String, required: true },
     description: { type: String, required: true },
+    date: { type: String, required: true },
     price: { type: String, required: true },
     alink: { type: String, required: true },
     img: { type: String, required: true },

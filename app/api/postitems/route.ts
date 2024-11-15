@@ -26,22 +26,58 @@ async function uploadToCloudinary(buffer: Buffer, filename: string) {
     });
 }
 
-// GET: Fetch all post items or filter by category
+// GET: Fetch all post items, filter by category or specific id
+
+
 export async function GET(request: Request) {
     await dbConnect();
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category') || '';
-
+    const allcategory = searchParams.get('allcategory') || '';
+    const id = searchParams.get('id') || '';
     try {
-        const postItems = category
-            ? await PostItem.find({ category }).select('-__v')
-            : await PostItem.find().select('-__v');
+        let postItems;
+        if (id) {
+            postItems = await PostItem.findById(id).select('-__v')
+            if (!postItems) {
+                return NextResponse.json({ message: "Item not found" }, { status: 404 })
+            }
+        }
+        // if (search) {
+        //   Fetch suggestions by product name based on search query
+        //     postItems = await PostItem.find({
+        //         pname: { $regex: search, $options: 'i' },
+        //     })
+        //         .select('pname _id')
+        //         .limit(5);  Limit suggestions to 5
+        // } else if (search && allcategory) {
+        // Fetch suggestions by product name within the specified allcategory
+        // postItems = await PostItem.find({
+        //     pname: { $regex: search, $options: 'i' },
+        //     allcategory: allcategory,  Filter by allcategory
+        // })
+        //     .select('pname _id')
+        //     .limit(5);Limit suggestions to 5
+        // } else 
+        else if (category) {
+            // Fetch items by category
+            postItems = await PostItem.find({ category }).select('-__v');
+        } else if (allcategory) {
+            // Fetch items by allcategory
+            postItems = await PostItem.find({ allcategory }).select('-__v');
+        } else {
+            // Fetch all items
+            postItems = await PostItem.find().select('-__v');
+
+        }
+
         return NextResponse.json(postItems);
     } catch (error) {
         console.error('Fetch Error:', error);
         return NextResponse.json({ message: 'SERVER ERROR' }, { status: 500 });
     }
 }
+
 
 // POST: Create a new post item with image upload
 export async function POST(request: Request) {
@@ -55,12 +91,13 @@ export async function POST(request: Request) {
         const allcategory = formData.get('allcategory') as string;
         const category = formData.get('category') as string;
         const description = formData.get('description') as string;
+        const date = formData.get('date') as string;
         const price = formData.get('price') as string;
         const alink = formData.get('alink') as string;
         const file = formData.get('img') as File;
 
         // Validate required fields
-        if (!pname || !brand || !category || !price || !alink || !file) {
+        if (!pname || !brand || !category || !date || !price || !alink || !file) {
             return NextResponse.json(
                 { message: 'Missing required fields' },
                 { status: 400 }
@@ -87,6 +124,7 @@ export async function POST(request: Request) {
             allcategory,
             category,
             description,
+            date,
             price,
             alink,
             img: imgUrl,
