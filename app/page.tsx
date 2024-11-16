@@ -1,5 +1,4 @@
 'use client';
-
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -21,6 +20,7 @@ const Posts: React.FC = () => {
   const [items, setItems] = useState<PostItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
   // Function to fetch post items data
   const fetchPostItems = async () => {
@@ -28,7 +28,7 @@ const Posts: React.FC = () => {
     setError(null);
 
     try {
-      const response = await fetch('/api/postitems');
+      const response = await fetch(`${BASE_URL}/api/postitems`);
 
       // Check for HTTP error
       if (!response.ok) {
@@ -69,6 +69,7 @@ const Posts: React.FC = () => {
             <p>No posts available.</p>
           ) : (
             items.map((item) => (
+
               <div key={item._id} className="product-card">
                 <img src={item.img} alt={item.pname} className="product-image" />
                 <div className="product-info">
@@ -81,7 +82,6 @@ const Posts: React.FC = () => {
                   </Button>
                 </div>
               </div>
-
             ))
           )}
         </div>

@@ -14,6 +14,7 @@ interface FormData {
     alink: string;
     img: File | string | null;
 }
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
 export default function PostItemForm() {
     const router = useRouter();
@@ -77,7 +78,7 @@ export default function PostItemForm() {
 
     const fetchPostData = async (id: string) => {
         try {
-            const response = await fetch(`/api/postitems/${id}`);
+            const response = await fetch(`${BASE_URL}/api/postitems/${id}`);
             if (response.ok) {
                 const postData = await response.json();
                 setFormData({
@@ -138,8 +139,8 @@ export default function PostItemForm() {
 
         const method = isEditMode ? "PUT" : "POST";
         const url = isEditMode
-            ? `/api/postitems/${postId}`
-            : "/api/postitems";
+            ? `${BASE_URL}/api/postitems/${postId}`
+            : "${BASE_URL}/api/postitems";
 
         const response = await fetch(url, {
             method,

@@ -79,6 +79,7 @@ export default function PostItemForm() {
             fetchPostData(postId);
         }
     }, [postId]);
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
     const fetchPostData = async (id: string) => {
         try {
@@ -129,7 +130,7 @@ export default function PostItemForm() {
         });
 
         const method = isEditMode ? 'PUT' : 'POST';
-        const url = isEditMode ? `/api/postitems/${postId}` : '/api/postitems';
+        const url = isEditMode ? `${BASE_URL}/api/postitems/${postId}` : `${BASE_URL}/api/postitems`;
 
         const response = await fetch(url, {
             method,

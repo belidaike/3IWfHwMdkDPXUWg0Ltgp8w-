@@ -22,8 +22,8 @@ export default function MakeUp() {
                     </div>
                 ) : (
                     postItems.map((item) => (
-                        <Link href={`/tech-gadgets/mobilephones/${item._id}`}>
-                            <div key={item._id} className="product-card">
+                        <div key={item._id} className="product-card">
+                            <Link href={`/tech-gadgets/mobilephones/${item._id}`}>
                                 <img src={item.img} alt={item.pname} className="product-image" />
                                 <div className="product-info">
                                     <h2>{item.pname}</h2>
@@ -34,8 +34,8 @@ export default function MakeUp() {
                                         </Link>
                                     </Button>
                                 </div>
-                            </div>
-                        </Link >
+                            </Link >
+                        </div>
                     ))
                 )}
             </div>

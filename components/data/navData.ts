@@ -37,28 +37,28 @@ export const navData: NavData = {
                 },
             ],
         },
-        {
-            title: "Beauty and Skincare",
-            url: "/beauty-skincare",
-            subcategories: [
-                {
-                    title: "Skincare Essentials",
-                    url: "/beauty-skincare/skincareessentials",
-                },
-                {
-                    title: "Makeup Tools & Kits",
-                    url: "/beauty-skincare/makeups",
-                },
-                {
-                    title: "Anti-Aging Products",
-                    url: "/beauty-skincare/anti-aging",
-                },
-                {
-                    title: "Hair Care",
-                    url: "/beauty-skincare/haircare",
-                },
-            ],
-        },
+        // {
+        //     title: "Beauty and Skincare",
+        //     url: "/beauty-skincare",
+        //     subcategories: [
+        //         {
+        //             title: "Skincare Essentials",
+        //             url: "/beauty-skincare/skincareessentials",
+        //         },
+        //         {
+        //             title: "Makeup Tools & Kits",
+        //             url: "/beauty-skincare/makeups",
+        //         },
+        //         {
+        //             title: "Anti-Aging Products",
+        //             url: "/beauty-skincare/anti-aging",
+        //         },
+        //         {
+        //             title: "Hair Care",
+        //             url: "/beauty-skincare/haircare",
+        //         },
+        //     ],
+        // },
         // {
         //     title: "Fashion and Accessories",
         //     url: "/fashion&accessories",

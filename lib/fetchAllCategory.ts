@@ -13,6 +13,8 @@ interface PostItem {
     img: string;
 }
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
 
 export const useGetPostItems = (allcategory: string) => {
     const [loading, setLoading] = useState(false);
@@ -22,7 +24,7 @@ export const useGetPostItems = (allcategory: string) => {
         const getPostItems = async () => {
             setLoading(true);
             try {
-                const res = await fetch(`/api/postitems?allcategory=${allcategory}`);
+                const res = await fetch(`${BASE_URL}/api/postitems?allcategory=${allcategory}`);
                 const data = await res.json();
                 if (data.error) throw new Error(data.error);
                 setPostItems(data);
@@ -42,7 +44,7 @@ export const useGetPostItems = (allcategory: string) => {
 // New Fetch Function for Single Post Item
 export const fetchPost = async (id: string): Promise<PostItem | null> => {
     try {
-        const res = await fetch(`/api/postitems?id=${id}`);
+        const res = await fetch(`${BASE_URL}/api/postitems?id=${id}`);
         const data = await res.json();
         if (data.error) throw new Error(data.error);
         return data;
