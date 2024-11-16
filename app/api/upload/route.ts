@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { ImageResponse } from 'next-cloudinary';
+import { uploadImage } from 'next-cloudinary';
 
 export async function POST(request: Request) {
     const formData = await request.formData();
@@ -10,7 +10,7 @@ export async function POST(request: Request) {
     }
 
     try {
-        const uploadResponse = await ImageResponse.upload(file, {
+        const uploadResponse = await uploadImage(file, {
             folder: 'affiliate_items',
         });
 
