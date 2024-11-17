@@ -5,7 +5,6 @@ import { v2 as Cloudinary } from 'cloudinary';
 import multer from 'multer';
 import { UploadApiResponse } from 'cloudinary';
 import { Readable } from 'stream';
-import { IncomingMessage } from 'http';
 
 // Initialize MongoDB
 connectDB();
@@ -29,7 +28,7 @@ interface PostItemFields {
     alink: string;
 }
 
-// Type for multer file (can be imported directly from multer)
+// Type for multer file
 interface File {
     fieldname: string;
     originalname: string;
@@ -39,10 +38,10 @@ interface File {
     size: number;
 }
 
-// Extend NextApiRequest type to include body and file
+// Extend NextApiRequest to include body and file
 interface ExtendedNextApiRequest extends NextApiRequest {
     body: PostItemFields;
-    file: File;
+    file?: File;
 }
 
 // Helper function to upload image to Cloudinary
@@ -63,33 +62,35 @@ const uploadToCloudinary = async (buffer: Buffer, folder: string) => {
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// Helper function to parse the form data and upload image
-const parseFormData = async (req: ExtendedNextApiRequest) => {
-    return new Promise<{ fields: PostItemFields; file: File }>((resolve, reject) => {
-        upload.single('img')(req as any, {} as any, (error: any) => {
-            if (error) return reject(error);
-            resolve({ fields: req.body, file: req.file });
+// Middleware to handle form-data parsing
+const parseFormData = (req: ExtendedNextApiRequest, res: NextApiResponse): Promise<{ fields: PostItemFields; file?: File }> => {
+    return new Promise((resolve, reject) => {
+        upload.single('img')(req as any, res as any, (error: any) => {
+            if (error) {
+                reject(error);
+            }
+            resolve({ fields: req.body as PostItemFields, file: req.file as File });
         });
     });
 };
 
+// Main handler
 const handler = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
     if (req.method === 'POST') {
         try {
             // Parse form data
-            const { fields, file } = await parseFormData(req);
+            const { fields, file } = await parseFormData(req, res);
 
-            // Extract fields from the parsed data
+            // Destructure fields
             const { pname, brand, allcategory, category, date, description, price, alink } = fields;
-            const image = file;
 
             // Ensure the image exists
-            if (!image) {
+            if (!file) {
                 return res.status(400).json({ error: 'Image is required' });
             }
 
             // Upload image to Cloudinary
-            const uploadResult = await uploadToCloudinary(image.buffer, 'affiliate_items');
+            const uploadResult = await uploadToCloudinary(file.buffer, 'affiliate_items');
             const imageUrl = uploadResult.secure_url;
 
             // Create a new PostItem

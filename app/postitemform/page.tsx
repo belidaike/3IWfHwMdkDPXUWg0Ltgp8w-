@@ -15,17 +15,6 @@ interface FormData {
     img: File | null;
 }
 
-interface PostData {
-    pname: string;
-    brand: string;
-    allcategory: string;
-    category: string;
-    description: string;
-    date: string;
-    price: string;
-    alink: string;
-}
-
 export default function PostItemForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -53,27 +42,15 @@ export default function PostItemForm() {
             'Smartwatches',
             'Audio and Headphones'
         ],
-        'Beauty and Skincare': [
-            'Skincare Essentials',
-            'Makeup Tools & Kits',
-            'Anti-Aging Products',
-            'Hair Care'
-        ],
-        // Add other categories as needed
     };
 
-    const brandOptions: string[] = [
-        'mobilephones',
-        'laptops',
-        'smartwatches',
-        'audio-headphones',
-    ];
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
-    // Fetch data by ID if it's in edit mode
+    // Memoized fetchPostData function to avoid infinite loop
     const fetchPostData = useCallback(async (id: string) => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/api/postitems/${id}`);
-            const postData: PostData = await response.json();  // Type the response
+            const response = await fetch(`${BASE_URL}/api/postitems/${id}`);
+            const postData = await response.json();
             setFormData({
                 pname: postData.pname || '',
                 brand: postData.brand || '',
@@ -90,17 +67,22 @@ export default function PostItemForm() {
             } else {
                 setCategories([]);
             }
-        } catch (error) {
-            console.error("Failed to fetch post data:", error);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                console.error("Failed to fetch post data:", error.message);
+            } else {
+                console.error("Unknown error occurred while fetching post data");
+            }
         }
-    }, []);
+    }, [BASE_URL, allCategories]);
 
+    // Fetch data by ID if it's in edit mode
     useEffect(() => {
         if (postId) {
             setIsEditMode(true);
             fetchPostData(postId);
         }
-    }, [postId, fetchPostData]);  // Add fetchPostData to the dependency array
+    }, [postId, fetchPostData]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -127,7 +109,7 @@ export default function PostItemForm() {
         });
 
         const method = isEditMode ? 'PUT' : 'POST';
-        const url = isEditMode ? `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/api/postitems/${postId}` : `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/api/postitems`;
+        const url = isEditMode ? `${BASE_URL}/api/postitems/${postId}` : `${BASE_URL}/api/postitems`;
 
         try {
             const response = await fetch(url, {
@@ -137,12 +119,16 @@ export default function PostItemForm() {
 
             if (response.ok) {
                 alert(isEditMode ? 'Item updated successfully!' : 'Item created successfully!');
-                router.push('/postitems'); // Adjust the redirect path as needed
+                router.push('/postitemform');
             } else {
                 alert(isEditMode ? 'Failed to update item.' : 'Failed to create item.');
             }
-        } catch (error) {
-            console.error("Error submitting form:", error);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                console.error("Error submitting form:", error.message);
+            } else {
+                console.error("Unknown error occurred while submitting form");
+            }
             alert('An error occurred while submitting the form.');
         }
     };
@@ -162,20 +148,15 @@ export default function PostItemForm() {
                     className="w-full border p-2"
                     required
                 />
-                <select
+                <input
+                    type="text"
                     name="brand"
+                    placeholder="Brand"
                     value={formData.brand}
                     onChange={handleChange}
                     className="w-full border p-2"
                     required
-                >
-                    <option value="">Select Brand</option>
-                    {brandOptions.map((brand) => (
-                        <option key={brand} value={brand}>
-                            {brand.charAt(0).toUpperCase() + brand.slice(1).replace(/-/g, ' ')}
-                        </option>
-                    ))}
-                </select>
+                />
                 <select
                     name="allcategory"
                     value={formData.allcategory}

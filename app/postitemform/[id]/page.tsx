@@ -119,7 +119,7 @@ export default function PostItemForm() {
             setIsEditMode(true);
             fetchPostData(postId);
         }
-    }, [postId, isDataFetched, fetchPostData]);
+    }, [postId, isDataFetched, fetchPostData]); // Added fetchPostData to the dependency array
 
     const handleChange = (
         e: React.ChangeEvent<

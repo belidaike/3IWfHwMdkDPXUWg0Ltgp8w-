@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/config/db';
-import PostItem from '@/models/PostItem';
+import PostItem, { IPostItem } from '@/models/PostItem'; // Correct import
 
 dbConnect();
 
@@ -9,10 +9,8 @@ export async function GET(request: Request, { params }: { params: { id: string }
     const { id } = params;
 
     try {
-        // Fetch post item by ID
         const postItem = await PostItem.findById(id).select('-__v');
 
-        // If not found, return 404
         if (!postItem) {
             return NextResponse.json({ message: 'PostItem not found' }, { status: 404 });
         }
@@ -24,31 +22,41 @@ export async function GET(request: Request, { params }: { params: { id: string }
     }
 }
 
+// Define an interface for the updated fields using Partial<IPostItem> 
+// but handle img as either a string or File
+type UpdateFields = Omit<Partial<IPostItem>, 'img'> & { img?: string | File };
 
 // PUT: Update a post item by ID
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
     const { id } = params;
 
     try {
-        // Parse form data
         const formData = await request.formData();
+        const updatedFields: UpdateFields = {};
 
-        const updatedFields: { [key: string]: any } = {};
         formData.forEach((value, key) => {
-            if (key === 'img' && typeof value === 'object') {
+            if (key === 'img' && value instanceof File) {
+                // Assuming you handle File upload separately, store as File
                 updatedFields[key] = value;
             } else {
-                updatedFields[key] = value.toString();
+                // All other fields as string
+                updatedFields[key as keyof IPostItem] = value.toString();
             }
         });
 
-        // Find the post item by ID and update
+        // Handle the `img` field if it's a File upload (add logic to upload to a storage service)
+        if (updatedFields.img instanceof File) {
+            // Example logic (you need to implement your own upload logic):
+            // const uploadedImgUrl = await uploadFile(updatedFields.img);
+            // updatedFields.img = uploadedImgUrl;
+            delete updatedFields.img; // Removing File since you store img as URL string in DB
+        }
+
         const updatedPostItem = await PostItem.findByIdAndUpdate(id, updatedFields, {
-            new: true, // Return the updated document
+            new: true,
             runValidators: true,
         });
 
-        // If the post item is not found
         if (!updatedPostItem) {
             return NextResponse.json({ message: 'PostItem not found' }, { status: 404 });
         }
