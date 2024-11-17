@@ -1,9 +1,4 @@
-// declare module 'next-cloudinary' {
-//     export const ImageResponse: {
-//         upload: (file: File, options?: { folder: string }) => Promise<{ secure_url: string }>;
-//     };
-// }
-
+// next-cloudinary.d.ts
 declare module 'next-cloudinary' {
-    export const uploadImage: (file: File, options?: { folder: string }) => Promise<{ secure_url: string }>;
+    // No custom export needed because you're using the Cloudinary SDK directly
 }

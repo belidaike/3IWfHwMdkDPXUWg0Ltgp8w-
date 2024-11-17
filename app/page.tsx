@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button';
 import PostItem from '@/models/PostItem';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
 interface PostItem {
@@ -17,86 +17,83 @@ interface PostItem {
 }
 
 const Posts: React.FC = () => {
-  const router = useRouter();
   const [items, setItems] = useState<PostItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
-  // Function to fetch post items data
-  const fetchPostItems = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const response = await fetch(`${BASE_URL}/api/postitems`);
-
-      // Check for HTTP error
-      if (!response.ok) {
-        throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
-      }
-
-      // Parse JSON data
-      const data: PostItem[] = await response.json();
-      setItems(data);
-    } catch (error: any) {
-      setError(error.message || 'An unexpected error occurred');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Fetch data when the component mounts
   useEffect(() => {
-    fetchPostItems();
-  }, []);
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
 
-  // Render loading state
+      try {
+        const response = await fetch(`${BASE_URL}/api/postitems`);
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
+        }
+
+        const data: PostItem[] = await response.json();
+        setItems(data);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError('An unexpected error occurred');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [BASE_URL]);
+
   if (loading) return <div className="text-center mt-5"><h1 className='text-2xl'>loading posts...</h1></div>;
-
-  // Render error state
   if (error) return <div className="text-center text-red-600">Error: {error}</div>;
 
-  // Render posts
   return (
     <>
-      <>
-
-        <div className="text-center mt-5"><h1 className='text-2xl'>All Products</h1></div>
-
-
-        <div className="products">
-          {items.length === 0 ? (
-            <p>No posts available.</p>
-          ) : (
-            items.map((item) => (
-
-              <div key={item._id} className="product-card">
-                <Link href={
-                  item.brand === 'mobilephones'
-                    ? `/tech-gadgets/mobilephones/${item._id}`
-                    : item.brand === 'laptops'
-                      ? `/tech-gadgets/laptop-computers/${item._id}`
-                      : item.brand === 'audio-headphones' ? `/tech-gadgets/audio-headphones/${item._id}`
-                        : `/tech-gadgets/smartwatches/${item._id}` // Fallback URL in case brand is not 'mobilephones' or 'laptops'
-                }>
-                  <img src={item.img} alt={item.pname} className="product-image" />
-                  <div className="product-info">
-                    <h2>{item.pname}</h2>
-                    <p>₱{item.price}</p>
-                    <Button>
-                      <Link href={item.alink} target="_blank" rel="noopener noreferrer">
-                        View More
-                      </Link>
-                    </Button>
-                    <p>{item.brand}</p>
-                  </div>
-                </Link>
-              </div>
-            ))
-          )}
-        </div>
-      </>
+      <div className="text-center mt-5"><h1 className='text-2xl'>All Products</h1></div>
+      <div className="products">
+        {items.length === 0 ? (
+          <p>No posts available.</p>
+        ) : (
+          items.map((item) => (
+            <div key={item._id} className="product-card">
+              <Link href={
+                item.category === 'mobilephones'
+                  ? `/tech-gadgets/mobilephones/${item._id}`
+                  : item.category === 'laptops'
+                    ? `/tech-gadgets/laptop-computers/${item._id}`
+                    : item.category === 'audio-headphones'
+                      ? `/tech-gadgets/audio-headphones/${item._id}`
+                      : `/tech-gadgets/smartwatches/${item._id}`
+              }>
+                <Image
+                  src={item.img}
+                  alt={item.pname}
+                  className="product-image"
+                  width={300}
+                  height={300}
+                  priority={true}
+                />
+                <div className="product-info">
+                  <h2>{item.pname}</h2>
+                  <p>₱{item.price}</p>
+                  <Button>
+                    <Link href={item.alink} target="_blank" rel="noopener noreferrer">
+                      View More
+                    </Link>
+                  </Button>
+                  <p>{item.brand}</p>
+                </div>
+              </Link>
+            </div>
+          ))
+        )}
+      </div>
     </>
   );
 };
