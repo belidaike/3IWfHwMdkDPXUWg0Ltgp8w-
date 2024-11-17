@@ -1,5 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
+import PostItem from '@/models/PostItem';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -71,16 +72,26 @@ const Posts: React.FC = () => {
             items.map((item) => (
 
               <div key={item._id} className="product-card">
-                <img src={item.img} alt={item.pname} className="product-image" />
-                <div className="product-info">
-                  <h2>{item.pname}</h2>
-                  <p>₱{item.price}</p>
-                  <Button>
-                    <Link href={item.alink} target="_blank" rel="noopener noreferrer">
-                      View More
-                    </Link>
-                  </Button>
-                </div>
+                <Link href={
+                  item.brand === 'mobilephones'
+                    ? `/tech-gadgets/mobilephones/${item._id}`
+                    : item.brand === 'laptops'
+                      ? `/tech-gadgets/laptop-computers/${item._id}`
+                      : item.brand === 'audio-headphones' ? `/tech-gadgets/audio-headphones/${item._id}`
+                        : `/tech-gadgets/smartwatches/${item._id}` // Fallback URL in case brand is not 'mobilephones' or 'laptops'
+                }>
+                  <img src={item.img} alt={item.pname} className="product-image" />
+                  <div className="product-info">
+                    <h2>{item.pname}</h2>
+                    <p>₱{item.price}</p>
+                    <Button>
+                      <Link href={item.alink} target="_blank" rel="noopener noreferrer">
+                        View More
+                      </Link>
+                    </Button>
+                    <p>{item.brand}</p>
+                  </div>
+                </Link>
               </div>
             ))
           )}
