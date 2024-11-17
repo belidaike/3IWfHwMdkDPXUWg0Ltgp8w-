@@ -5,6 +5,7 @@ import { v2 as Cloudinary } from 'cloudinary';
 import multer from 'multer';
 import { UploadApiResponse } from 'cloudinary';
 import { Readable } from 'stream';
+import corsMiddleware from '../../../middleware/cors';
 
 // Initialize MongoDB
 connectDB();
@@ -76,6 +77,9 @@ const parseFormData = (req: ExtendedNextApiRequest, res: NextApiResponse): Promi
 
 // Main handler
 const handler = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
+    // Apply CORS middleware
+    await corsMiddleware(req, res);
+
     if (req.method === 'POST') {
         try {
             // Parse form data
