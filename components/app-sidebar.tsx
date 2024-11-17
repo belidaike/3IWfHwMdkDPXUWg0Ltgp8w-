@@ -1,5 +1,5 @@
 import * as React from "react";
-import { GalleryVerticalEnd, Minus, Plus } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
 import Link from "next/link";
 
 import {

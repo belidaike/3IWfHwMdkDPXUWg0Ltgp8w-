@@ -71,6 +71,13 @@ export default function PostItemForm() {
         //         'Smart Home Devices'
         //     ],
     };
+    const brandOptions: string[] = [
+        'mobilephones',
+        'laptops',
+        'smartwatches',
+        'audio-headphones',
+    ];
+
 
     // Fetch data by ID if it's in edit mode
     useEffect(() => {
@@ -160,15 +167,20 @@ export default function PostItemForm() {
                     className="w-full border p-2"
                     required
                 />
-                <input
-                    type="text"
+                <select
                     name="brand"
-                    placeholder="Brand"
                     value={formData.brand}
                     onChange={handleChange}
                     className="w-full border p-2"
                     required
-                />
+                >
+                    <option value="">Select Brand</option>
+                    {brandOptions.map((brand: string) => (
+                        <option key={brand} value={brand}>
+                            {brand.charAt(0).toUpperCase() + brand.slice(1).replace(/-/g, ' ')}
+                        </option>
+                    ))}
+                </select>
                 <select
                     name="allcategory"
                     value={formData.allcategory}
