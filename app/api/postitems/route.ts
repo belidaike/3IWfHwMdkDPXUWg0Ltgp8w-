@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/config/db';
 import PostItem from '@/models/PostItem';
-import { cloudinary } from '@/lib/cloudinary';
+// import { cloudinary } from '@/lib/cloudinary';
 import { v4 as uuidv4 } from 'uuid';
 import { UploadApiResponse } from 'cloudinary';
 import { Readable } from 'stream';
+import cloudinary from '@/lib/cloudinary';
 
 // Connect to MongoDB
 dbConnect();
@@ -14,7 +15,7 @@ async function uploadToCloudinary(buffer: Buffer, filename: string) {
     return new Promise<UploadApiResponse>((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
             { folder: 'affiliate_items', public_id: filename },
-            (error, result) => {
+            (error: any, result: any) => {
                 if (result) resolve(result);
                 else reject(error);
             }

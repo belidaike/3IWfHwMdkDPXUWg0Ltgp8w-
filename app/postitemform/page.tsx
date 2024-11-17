@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 interface FormData {
@@ -13,6 +13,17 @@ interface FormData {
     price: string;
     alink: string;
     img: File | null;
+}
+
+interface PostData {
+    pname: string;
+    brand: string;
+    allcategory: string;
+    category: string;
+    description: string;
+    date: string;
+    price: string;
+    alink: string;
 }
 
 export default function PostItemForm() {
@@ -36,41 +47,21 @@ export default function PostItemForm() {
     const [isEditMode, setIsEditMode] = useState(false);
 
     const allCategories = {
-        'Tech and Gadgets':
-            [
-                'Mobile Phones',
-                'Laptops and Computers',
-                'Smartwatches',
-                'Audio and Headphones'
-            ],
-        'Beauty and Skincare':
-            [
-                'Skincare Essentials',
-                'Makeup Tools & Kits',
-                'Anti-Aging Products',
-                'Hair Care'
-            ],
-        // 'Fashion and Accessories':
-        //     ['Clothing',
-        //         'Footwear',
-        //         'Jewelry & Watches',
-        //         'Bags & Wallets'
-        //     ],
-        // 'Health and Fitness':
-        //     [
-        //         'Fitness Equipment',
-        //         'Supplements & Vitamins',
-        //         'Wearable Tech',
-        //         'Yoga & Meditation'
-        //     ],
-        // 'Home and Kitchen Appliances':
-        //     [
-        //         'Kitchen Appliances',
-        //         'Home Essentials',
-        //         'Cleaning Supplies',
-        //         'Smart Home Devices'
-        //     ],
+        'Tech and Gadgets': [
+            'Mobile Phones',
+            'Laptops and Computers',
+            'Smartwatches',
+            'Audio and Headphones'
+        ],
+        'Beauty and Skincare': [
+            'Skincare Essentials',
+            'Makeup Tools & Kits',
+            'Anti-Aging Products',
+            'Hair Care'
+        ],
+        // Add other categories as needed
     };
+
     const brandOptions: string[] = [
         'mobilephones',
         'laptops',
@@ -78,20 +69,11 @@ export default function PostItemForm() {
         'audio-headphones',
     ];
 
-
     // Fetch data by ID if it's in edit mode
-    useEffect(() => {
-        if (postId) {
-            setIsEditMode(true);
-            fetchPostData(postId);
-        }
-    }, [postId]);
-    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-
-    const fetchPostData = async (id: string) => {
+    const fetchPostData = useCallback(async (id: string) => {
         try {
-            const response = await fetch(`/api/postitems/${id}`);
-            const postData = await response.json();
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/api/postitems/${id}`);
+            const postData: PostData = await response.json();  // Type the response
             setFormData({
                 pname: postData.pname || '',
                 brand: postData.brand || '',
@@ -111,7 +93,14 @@ export default function PostItemForm() {
         } catch (error) {
             console.error("Failed to fetch post data:", error);
         }
-    };
+    }, []);
+
+    useEffect(() => {
+        if (postId) {
+            setIsEditMode(true);
+            fetchPostData(postId);
+        }
+    }, [postId, fetchPostData]);  // Add fetchPostData to the dependency array
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -132,23 +121,29 @@ export default function PostItemForm() {
         e.preventDefault();
 
         const formPayload = new FormData();
-        Object.keys(formData).forEach((key) => {
-            formPayload.append(key, (formData as any)[key]);
+        (Object.keys(formData) as Array<keyof FormData>).forEach((key) => {
+            const value = formData[key];
+            formPayload.append(key, value instanceof File ? value : String(value || ''));
         });
 
         const method = isEditMode ? 'PUT' : 'POST';
-        const url = isEditMode ? `${BASE_URL}/api/postitems/${postId}` : `${BASE_URL}/api/postitems`;
+        const url = isEditMode ? `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/api/postitems/${postId}` : `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/api/postitems`;
 
-        const response = await fetch(url, {
-            method,
-            body: formPayload,
-        });
+        try {
+            const response = await fetch(url, {
+                method,
+                body: formPayload,
+            });
 
-        if (response.ok) {
-            alert(isEditMode ? 'Item updated successfully!' : 'Item created successfully!');
-            router.push('/postitemform'); // Redirect to a dashboard or listing page
-        } else {
-            alert(isEditMode ? 'Failed to update item.' : 'Failed to create item.');
+            if (response.ok) {
+                alert(isEditMode ? 'Item updated successfully!' : 'Item created successfully!');
+                router.push('/postitems'); // Adjust the redirect path as needed
+            } else {
+                alert(isEditMode ? 'Failed to update item.' : 'Failed to create item.');
+            }
+        } catch (error) {
+            console.error("Error submitting form:", error);
+            alert('An error occurred while submitting the form.');
         }
     };
 
@@ -175,7 +170,7 @@ export default function PostItemForm() {
                     required
                 >
                     <option value="">Select Brand</option>
-                    {brandOptions.map((brand: string) => (
+                    {brandOptions.map((brand) => (
                         <option key={brand} value={brand}>
                             {brand.charAt(0).toUpperCase() + brand.slice(1).replace(/-/g, ' ')}
                         </option>
@@ -195,7 +190,6 @@ export default function PostItemForm() {
                         </option>
                     ))}
                 </select>
-
                 <select
                     name="category"
                     value={formData.category}
@@ -210,7 +204,6 @@ export default function PostItemForm() {
                         </option>
                     ))}
                 </select>
-
                 <textarea
                     name="description"
                     placeholder="Description"

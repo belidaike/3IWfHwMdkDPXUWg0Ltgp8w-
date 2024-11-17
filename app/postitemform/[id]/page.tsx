@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter, useParams } from "next/navigation";
 
 interface FormData {
@@ -14,6 +14,19 @@ interface FormData {
     alink: string;
     img: File | string | null;
 }
+
+interface PostData {
+    pname: string;
+    brand: string;
+    allcategory: string;
+    category: string;
+    description: string;
+    date: string;
+    price: string;
+    alink: string;
+    img: string | null;
+}
+
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
 export default function PostItemForm() {
@@ -69,18 +82,11 @@ export default function PostItemForm() {
         ],
     };
 
-    useEffect(() => {
-        if (postId && typeof postId === "string" && !isDataFetched) {
-            setIsEditMode(true);
-            fetchPostData(postId);
-        }
-    }, [postId, isDataFetched]);
-
-    const fetchPostData = async (id: string) => {
+    const fetchPostData = useCallback(async (id: string) => {
         try {
             const response = await fetch(`${BASE_URL}/api/postitems/${id}`);
             if (response.ok) {
-                const postData = await response.json();
+                const postData: PostData = await response.json();
                 setFormData({
                     pname: postData.pname || "",
                     brand: postData.brand || "",
@@ -106,7 +112,14 @@ export default function PostItemForm() {
         } catch (error) {
             console.error("Error fetching post data:", error);
         }
-    };
+    }, [allCategories]);
+
+    useEffect(() => {
+        if (postId && typeof postId === "string" && !isDataFetched) {
+            setIsEditMode(true);
+            fetchPostData(postId);
+        }
+    }, [postId, isDataFetched, fetchPostData]);
 
     const handleChange = (
         e: React.ChangeEvent<
@@ -133,14 +146,14 @@ export default function PostItemForm() {
 
         const formPayload = new FormData();
         Object.keys(formData).forEach((key) => {
-            const value = (formData as any)[key];
+            const value = formData[key as keyof FormData];
             formPayload.append(key, value instanceof File ? value : String(value));
         });
 
         const method = isEditMode ? "PUT" : "POST";
         const url = isEditMode
             ? `${BASE_URL}/api/postitems/${postId}`
-            : "${BASE_URL}/api/postitems";
+            : `${BASE_URL}/api/postitems`;
 
         const response = await fetch(url, {
             method,
