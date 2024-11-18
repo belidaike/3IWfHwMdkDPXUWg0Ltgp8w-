@@ -1,5 +1,6 @@
 'use client';
 import { Button } from '@/components/ui/button';
+import useGetAllPostItems from '@/lib/fetch';
 import PostItem from '@/models/PostItem';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
@@ -16,49 +17,49 @@ interface PostItem {
 }
 
 const Posts: React.FC = () => {
-  const [items, setItems] = useState<PostItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  // const [items, setItems] = useState<PostItem[]>([]);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState<string | null>(null);
+  // const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      setError(null);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     setLoading(true);
+  //     setError(null);
 
-      try {
-        const response = await fetch(`${BASE_URL}/api/postitems`);
+  //     try {
+  //       const response = await fetch(`${BASE_URL}/api/postitems`);
 
-        if (!response.ok) {
-          throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
-        }
+  //       if (!response.ok) {
+  //         throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
+  //       }
 
-        const data: PostItem[] = await response.json();
-        setItems(data);
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          setError(error.message);
-        } else {
-          setError('An unexpected error occurred');
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
+  //       const data: PostItem[] = await response.json();
+  //       setItems(data);
+  //     } catch (error: unknown) {
+  //       if (error instanceof Error) {
+  //         setError(error.message);
+  //       } else {
+  //         setError('An unexpected error occurred');
+  //       }
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchData();
-  }, [BASE_URL]);
-
+  //   fetchData();
+  // }, [BASE_URL]);
+  const { loading, error, postItems } = useGetAllPostItems();
   if (loading) return <div className="text-center mt-5"><h1 className='text-2xl'>loading posts...</h1></div>;
   if (error) return <div className="text-center text-red-600">Error: {error}</div>;
   return (
     <>
       <div className="text-center mt-5"><h1 className='text-2xl'>All Products</h1></div>
       <div className="products">
-        {items.length === 0 ? (
-          <p>No posts available.</p>
+        {postItems.length === 0 ? (
+          <div className="text-center mt-5"><h1 className='text-2xl'>No posts available</h1></div>
         ) : (
-          items.map((item) => (
+          postItems.map((item) => (
             <div key={item._id} className="product-card">
               <Link href={
                 item.category === 'mobilephones'
