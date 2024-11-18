@@ -1,9 +1,8 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import useGetAllPostItems from '@/lib/fetch';
-import PostItem from '@/models/PostItem';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 interface PostItem {
   _id: string;
