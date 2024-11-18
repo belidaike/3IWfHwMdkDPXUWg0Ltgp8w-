@@ -4,16 +4,6 @@ import useGetAllPostItems from '@/lib/fetch';
 import Link from 'next/link';
 import React from 'react';
 
-interface PostItem {
-  _id: string;
-  pname: string;
-  brand: string;
-  category: string;
-  description: string;
-  price: string;
-  alink: string;
-  img: string;
-}
 
 const Posts: React.FC = () => {
   // const [items, setItems] = useState<PostItem[]>([]);
