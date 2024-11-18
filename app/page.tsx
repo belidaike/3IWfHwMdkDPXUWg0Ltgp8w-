@@ -2,7 +2,6 @@
 import { Button } from '@/components/ui/button';
 import PostItem from '@/models/PostItem';
 import Link from 'next/link';
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
 interface PostItem {
@@ -52,7 +51,7 @@ const Posts: React.FC = () => {
 
   if (loading) return <div className="text-center mt-5"><h1 className='text-2xl'>loading posts...</h1></div>;
   if (error) return <div className="text-center text-red-600">Error: {error}</div>;
-
+  console.log(items)
   return (
     <>
       <div className="text-center mt-5"><h1 className='text-2xl'>All Products</h1></div>
@@ -71,13 +70,12 @@ const Posts: React.FC = () => {
                       ? `/tech-gadgets/audio-headphones/${item._id}`
                       : `/tech-gadgets/smartwatches/${item._id}`
               }>
-                <Image
+                <img
                   src={item.img}
                   alt={item.pname}
                   className="product-image"
                   width={300}
                   height={300}
-                  priority={true}
                 />
                 <div className="product-info">
                   <h2>{item.pname}</h2>
