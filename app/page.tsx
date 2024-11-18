@@ -51,7 +51,6 @@ const Posts: React.FC = () => {
 
   if (loading) return <div className="text-center mt-5"><h1 className='text-2xl'>loading posts...</h1></div>;
   if (error) return <div className="text-center text-red-600">Error: {error}</div>;
-  console.log(items)
   return (
     <>
       <div className="text-center mt-5"><h1 className='text-2xl'>All Products</h1></div>
