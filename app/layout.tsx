@@ -15,7 +15,7 @@ const roboto = Roboto({
 
 // Define metadata at the top level
 export const metadata = {
-  title: 'Your Website Title',
+  title: 'Shop Smartly',
 
 };
 
