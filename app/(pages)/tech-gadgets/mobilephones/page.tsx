@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
 
-export default function MakeUp() {
+export default function Mobilephones() {
     const { loading, postItems } = useGetPostItems("Mobile Phones");
     if (loading) return <div className="text-center mt-5"><h1 className='text-2xl'>loading posts...</h1></div>;
 

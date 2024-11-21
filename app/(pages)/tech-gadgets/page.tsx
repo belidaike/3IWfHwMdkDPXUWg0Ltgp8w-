@@ -1,4 +1,3 @@
-// components/BeautyandSkin.tsx
 'use client';
 import useGetPostItems from '@/lib/fetchAllCategory';
 import React from 'react';

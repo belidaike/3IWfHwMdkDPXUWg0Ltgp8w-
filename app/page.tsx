@@ -4,40 +4,8 @@ import useGetAllPostItems from '@/lib/fetch';
 import Link from 'next/link';
 import React from 'react';
 
-
 const Posts: React.FC = () => {
-  // const [items, setItems] = useState<PostItem[]>([]);
-  // const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState<string | null>(null);
-  // const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     setLoading(true);
-  //     setError(null);
-
-  //     try {
-  //       const response = await fetch(`${BASE_URL}/api/postitems`);
-
-  //       if (!response.ok) {
-  //         throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
-  //       }
-
-  //       const data: PostItem[] = await response.json();
-  //       setItems(data);
-  //     } catch (error: unknown) {
-  //       if (error instanceof Error) {
-  //         setError(error.message);
-  //       } else {
-  //         setError('An unexpected error occurred');
-  //       }
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [BASE_URL]);
   const { loading, error, postItems } = useGetAllPostItems();
   if (loading) return <div className="text-center mt-5"><h1 className='text-2xl'>loading posts...</h1></div>;
   if (error) return <div className="text-center text-red-600">Error: {error}</div>;
@@ -80,6 +48,7 @@ const Posts: React.FC = () => {
             </div>
           ))
         )}
+
       </div>
     </>
   );

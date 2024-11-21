@@ -5,6 +5,7 @@ import { fetchPost } from '@/lib/fetchData';
 import { useParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { Metadata } from 'next';
 
 interface PostItem {
     _id: string;
@@ -17,7 +18,37 @@ interface PostItem {
     alink: string;
     img: string;
 }
+async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+    const id = params.id;
 
+    // Fetch the post data
+    const postItem: PostItem | null = await fetchPost(id);
+
+    // Handle null case
+    if (!postItem) {
+        return {
+            title: 'Post Not Found - Shop Smartly',
+            description: 'Sorry, the product you are looking for cannot be found.',
+        };
+    }
+
+    return {
+        title: `${postItem.pname} - Shop Smartly`,
+        description: postItem.description,
+        openGraph: {
+            title: `${postItem.pname} - Shop Smartly`,
+            description: postItem.description,
+            images: postItem.img || '/default-og-image.jpg',
+            url: `https://5hop5martly.vercel.app/tech-gadgets/laptops-computers/${id}`,
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: `${postItem.pname} - Shop Smartly`,
+            description: postItem.description,
+            images: postItem.img || '/default-og-image.jpg',
+        },
+    };
+}
 export default function AntiAgingPostPage() {
     const params = useParams();
     const id = params.id as string;
