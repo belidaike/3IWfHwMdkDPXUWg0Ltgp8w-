@@ -20,37 +20,37 @@ interface PostItem {
 }
 
 // Fetch post metadata dynamically
-async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-    const id = params.id;
+// async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+//     const id = params.id;
 
-    // Fetch the post data
-    const postItem: PostItem | null = await fetchPost(id);
+//     // Fetch the post data
+//     const postItem: PostItem | null = await fetchPost(id);
 
-    // Handle null case
-    if (!postItem) {
-        return {
-            title: 'Post Not Found - Shop Smartly',
-            description: 'Sorry, the product you are looking for cannot be found.',
-        };
-    }
+//     // Handle null case
+//     if (!postItem) {
+//         return {
+//             title: 'Post Not Found - Shop Smartly',
+//             description: 'Sorry, the product you are looking for cannot be found.',
+//         };
+//     }
 
-    return {
-        title: `${postItem.pname} - Shop Smartly`,
-        description: postItem.description,
-        openGraph: {
-            title: `${postItem.pname} - Shop Smartly`,
-            description: postItem.description,
-            images: postItem.img || '/default-og-image.jpg',
-            url: `https://5hop5martly.vercel.app/tech-gadgets/mobilephones/${id}`,
-        },
-        twitter: {
-            card: 'summary_large_image',
-            title: `${postItem.pname} - Shop Smartly`,
-            description: postItem.description,
-            images: postItem.img || '/default-og-image.jpg',
-        },
-    };
-}
+//     return {
+//         title: `${postItem.pname} - Shop Smartly`,
+//         description: postItem.description,
+//         openGraph: {
+//             title: `${postItem.pname} - Shop Smartly`,
+//             description: postItem.description,
+//             images: postItem.img || '/default-og-image.jpg',
+//             url: `https://5hop5martly.vercel.app/tech-gadgets/mobilephones/${id}`,
+//         },
+//         twitter: {
+//             card: 'summary_large_image',
+//             title: `${postItem.pname} - Shop Smartly`,
+//             description: postItem.description,
+//             images: postItem.img || '/default-og-image.jpg',
+//         },
+//     };
+// }
 
 export default function MobilePhones() {
     const params = useParams();
