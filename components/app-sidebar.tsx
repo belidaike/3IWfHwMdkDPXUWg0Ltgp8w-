@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Minus, Plus } from "lucide-react";
 import Link from "next/link";
-
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Collapsible,
   CollapsibleContent,
@@ -23,6 +23,7 @@ import {
 
 import { navData } from "./data/navData";
 import Image from "next/image";
+import { Button } from "./ui/button";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -88,6 +89,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             ))}
           </SidebarMenu>
         </SidebarGroup>
+        <div className="mt-auto p-4">
+          <Card className="">
+            <CardHeader className="p-2 pt-0 md:p-4">
+              <CardTitle>Donate Here</CardTitle>
+              <CardDescription>This website is free if you want to support any amount would be appriciated.</CardDescription>
+            </CardHeader>
+            <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
+              <Button size="sm" className="w-full">Donate</Button>
+            </CardContent>
+          </Card>
+        </div>
       </SidebarContent>
       <SidebarRail />
     </Sidebar>

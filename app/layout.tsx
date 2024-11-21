@@ -7,18 +7,17 @@ import { Separator } from "@/components/ui/separator";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Toaster } from "@/components/ui/toaster";
 import { Roboto } from "next/font/google";
+import { Metadata } from "next";
 
 const roboto = Roboto({
   weight: ["400", "500", "700"],
   subsets: ["latin"],
 });
 
-// Define metadata at the top level
-export const metadata = {
-  title: 'Shop Smartly',
-
+export const metadata: Metadata = {
+  title: 'Shop Smartly - Your Trusted Affiliate Store',
+  description: 'Find the best deals on the latest gadgets, beauty, and home essentials.',
 };
-
 interface RootLayoutProps {
   children: React.ReactNode;
 }
@@ -29,7 +28,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <html lang="en" suppressHydrationWarning>
         <head>
           <link rel="icon" href="/logo.png" sizes="any" type="image/png" />
-          <title>Your Website Title</title>
         </head>
         <body className={roboto.className}>
           <ThemeProvider
