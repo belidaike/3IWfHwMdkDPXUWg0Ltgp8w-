@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchPost } from '@/lib/fetchData';
 import { useParams } from 'next/navigation';
-import { Metadata } from 'next';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
