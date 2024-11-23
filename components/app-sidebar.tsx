@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Minus, Plus } from "lucide-react";
 import Link from "next/link";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Collapsible,
   CollapsibleContent,
@@ -24,6 +24,14 @@ import {
 import { navData } from "./data/navData";
 import Image from "next/image";
 import { Button } from "./ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -92,11 +100,41 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <div className="mt-auto p-4">
           <Card className="">
             <CardHeader className="p-2 pt-0 md:p-4">
-              <CardTitle>Donate Here</CardTitle>
-              <CardDescription>This website is free if you want to support any amount would be appriciated.</CardDescription>
+              <CardTitle>Support Our Mission</CardTitle>
+              <CardDescription>
+                <span className="text-xs"> This website is free to use, and your support helps us continue providing valuable content and services.
+                  Every contribution, no matter how small, makes a difference. Thank you for considering supporting us!</span>
+              </CardDescription>
             </CardHeader>
             <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
-              <Button size="sm" className="w-full">Donate</Button>
+              {/* Dialog Trigger for Donation Modal */}
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button size="sm" className="w-full">Donate Now</Button>
+                </DialogTrigger>
+                {/* Dialog Content */}
+                <DialogContent className="text-center">
+                  <DialogHeader>
+                    <DialogTitle>Donate via GCash</DialogTitle>
+                    <DialogDescription>
+                      Your support helps us continue providing valuable content. Thank you!
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="mt-4">
+                    {/* Replace with your GCash QR Code */}
+                    <Image
+                      src="/path-to-your-gcash-qr-code.png"
+                      alt="GCash QR Code"
+                      width={200}
+                      height={200}
+                      className="mx-auto"
+                    />
+                    <p className="mt-4 text-lg font-semibold">
+                      GCash Number: <span className="text-blue-500">0917-123-4567</span>
+                    </p>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </CardContent>
           </Card>
         </div>
