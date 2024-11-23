@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
 
-export default function MakeUp() {
+export default function Smartwatches() {
     const { loading, postItems } = useGetPostItems("Smartwatches");
     if (loading) return <div className="text-center mt-5"><h1 className='text-2xl'>loading posts...</h1></div>;
 
@@ -27,11 +27,11 @@ export default function MakeUp() {
                                 <img src={item.img} alt={item.pname} className="product-image" />
                                 <div className="product-info">
                                     <h2>{item.pname}</h2>
-                                    <p>₱{item.price}</p>
+                                    <p className='post-price'>₱{item.price}</p>
                                     <Button>
-                                        <Link href={item.alink} target="_blank" rel="noopener noreferrer">
+                                        <a href={item.alink} target="_blank" rel="noopener noreferrer">
                                             View More
-                                        </Link>
+                                        </a>
                                     </Button>
                                 </div>
                             </Link >

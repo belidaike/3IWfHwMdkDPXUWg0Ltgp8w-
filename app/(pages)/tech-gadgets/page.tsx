@@ -2,6 +2,7 @@
 import useGetPostItems from '@/lib/fetchAllCategory';
 import React from 'react';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 
 export default function Tech_Gadgets() {
@@ -19,7 +20,6 @@ export default function Tech_Gadgets() {
                 ) : (
                     postItems.map((item) => (
                         <div key={item._id} className="product-card">
-                            {/* <Link href={`/tech-gadgets/${oiurl}/${item._id}`}> */}
                             <Link href={
                                 item.category === 'mobilephones'
                                     ? `/tech-gadgets/mobilephones/${item._id}`
@@ -29,12 +29,23 @@ export default function Tech_Gadgets() {
                                             ? `/tech-gadgets/audio-headphones/${item._id}`
                                             : `/tech-gadgets/smartwatches/${item._id}`
                             }>
-                                <img src={item.img} alt={item.pname} className="product-image" />
+                                <img
+                                    src={item.img}
+                                    alt={item.pname}
+                                    className="product-image"
+                                    width={300}
+                                    height={300}
+                                />
                                 <div className="product-info">
                                     <h2>{item.pname}</h2>
-                                    {/* <p>{item.description}</p> */}
-                                    <p>₱{item.price}</p>
-                                    <a href={item.alink} target="_blank" rel="noopener noreferrer">View More</a>
+                                    <br />
+                                    <p>Brand: {item.brand}</p>
+                                    <p className='post-price'>₱{item.price}</p>
+                                    <Button>
+                                        <a href={item.alink} target="_blank" rel="noopener noreferrer">
+                                            View More
+                                        </a>
+                                    </Button>
                                 </div>
                             </Link>
                         </div>

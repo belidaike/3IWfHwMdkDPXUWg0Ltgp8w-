@@ -16,8 +16,7 @@ interface PostItem {
     img: string;
 }
 
-// const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
 export const useGetPostItems = (category: string) => {
     const [loading, setLoading] = useState(false);
@@ -60,32 +59,6 @@ export const fetchPost = async (id: string): Promise<PostItem | null> => {
     }
 };
 
-export async function generateMetaData({ params }: { params: { id: string } }): Promise<Metadata> {
-    const post = await fetchPost(params.id);
-
-    if (!post) {
-        return {
-            title: 'Product Not Found - Shop Smartly',
-            description: 'The product you are looking for is not available.',
-        };
-    }
-
-    return {
-        title: `${post.pname} - Shop Smartly`,
-        description: post.description,
-        openGraph: {
-            title: post.pname,
-            description: post.description,
-            images: [post.img],
-        },
-        twitter: {
-            card: 'summary_large_image',
-            title: post.pname,
-            description: post.description,
-            images: [post.img],
-        },
-    };
-}
 
 export default useGetPostItems;
 
