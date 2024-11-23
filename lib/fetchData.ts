@@ -1,6 +1,5 @@
 // lib/fetchData.ts
 'use client'
-import { Metadata } from 'next';
 import { useEffect, useState } from 'react';
 
 interface PostItem {
