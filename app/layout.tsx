@@ -8,6 +8,7 @@ import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Toaster } from "@/components/ui/toaster";
 import { Roboto } from "next/font/google";
 import { Metadata } from "next";
+import { PostProvider } from "@/contexts/PostContext";
 
 const roboto = Roboto({
   weight: ["400", "500", "700"],
@@ -48,13 +49,15 @@ export default function RootLayout({ children }: RootLayoutProps) {
                     <ModeToggle />
                   </div>
                 </header>
-                <main className="flex flex-1 flex-col gap-4 p-4">{children}</main>
+                <PostProvider>
+                  <main className="flex flex-1 flex-col gap-4 p-4">{children}</main>
+                </PostProvider>
               </SidebarInset>
             </SidebarProvider>
           </ThemeProvider>
           <Toaster />
         </body>
-      </html>
+      </html >
     </>
   );
 }

@@ -27,11 +27,11 @@ export default function Mobilephones() {
                                 <img src={item.img} alt={item.pname} className="product-image" />
                                 <div className="product-info">
                                     <h2>{item.pname}</h2>
-                                    <p>₱{item.price}</p>
+                                    <p className='post-price'>₱{item.price}</p>
                                     <Button>
-                                        <Link href={item.alink} target="_blank" rel="noopener noreferrer">
+                                        <a href={item.alink} target="_blank" rel="noopener noreferrer">
                                             View More
-                                        </Link>
+                                        </a>
                                     </Button>
                                 </div>
                             </Link >

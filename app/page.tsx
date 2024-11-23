@@ -35,14 +35,14 @@ const Posts: React.FC = () => {
                   height={300}
                 />
                 <div className="product-info">
-                  <h2>{item.pname}</h2>
-                  <p>₱{item.price}</p>
+                  <h2>{item.pname}</h2><br />
+                  <p>Brand: {item.brand}</p>
+                  <p className='post-price'>₱{item.price}</p>
                   <Button>
                     <Link href={item.alink} target="_blank" rel="noopener noreferrer">
                       View More
                     </Link>
                   </Button>
-                  <p>{item.brand}</p>
                 </div>
               </Link>
             </div>

@@ -149,24 +149,17 @@ body {
   font-weight: 600;
   color: var(--text-primary, #333);
   margin: 0;
-  text-align: center;
   line-height: 1.4;
 }
 
 /* Product description styling */
 .product-info p {
   font-size: 14px;
-  color: var(--text-secondary, #666);
+  color: #707070;
   margin: 0;
-  text-align: center;
 }
 
 /* Product price styling */
-.product-info p:last-of-type {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--accent-color, #e74c3c);
-}
 
 .nopost {
   width: 100%;
@@ -248,8 +241,7 @@ body {
   line-height: 1.5;
 }
 
-.post-category,
-.post-price {
+.post-category {
   font-size: 1.1rem;
   font-weight: 500;
   color: #444;
@@ -272,3 +264,8 @@ body {
 /* .buy-now-button:hover {
   background-color: #005bb5;
 } */
+.post-price {
+  font-size: 16px;
+  font-weight: 700;
+  color: #e74c3c !important;
+}
