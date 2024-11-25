@@ -29,9 +29,7 @@ export default function Audio_Headphones() {
                                     <h2>{item.pname}</h2>
                                     <p className='post-price'>₱{item.price}</p>
                                     <Button>
-                                        <Link href={item.alink} target="_blank" rel="noopener noreferrer">
-                                            View More
-                                        </Link>
+                                        View More
                                     </Button>
                                 </div>
                             </Link >

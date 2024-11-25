@@ -97,7 +97,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             ))}
           </SidebarMenu>
         </SidebarGroup>
-        <div className="mt-auto p-4">
+
+        {/* <div className="mt-auto p-4">
           <Card className="">
             <CardHeader className="p-2 pt-0 md:p-4">
               <CardTitle>Support Our Mission</CardTitle>
@@ -107,12 +108,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </CardDescription>
             </CardHeader>
             <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
-              {/* Dialog Trigger for Donation Modal */}
+              Dialog Trigger for Donation Modal 
               <Dialog>
                 <DialogTrigger asChild>
                   <Button size="sm" className="w-full">Donate Now</Button>
                 </DialogTrigger>
-                {/* Dialog Content */}
+              Dialog Content 
                 <DialogContent className="text-center">
                   <DialogHeader>
                     <DialogTitle>Donate via GCash</DialogTitle>
@@ -121,7 +122,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     </DialogDescription>
                   </DialogHeader>
                   <div className="mt-4">
-                    {/* Replace with your GCash QR Code */}
+               Replace with your GCash QR Code 
                     <Image
                       src="/path-to-your-gcash-qr-code.png"
                       alt="GCash QR Code"
@@ -137,7 +138,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </Dialog>
             </CardContent>
           </Card>
-        </div>
+        </div> */}
       </SidebarContent>
       <SidebarRail />
     </Sidebar>

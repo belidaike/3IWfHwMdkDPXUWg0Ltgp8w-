@@ -29,9 +29,7 @@ export default function Mobilephones() {
                                     <h2>{item.pname}</h2>
                                     <p className='post-price'>₱{item.price}</p>
                                     <Button>
-                                        <a href={item.alink} target="_blank" rel="noopener noreferrer">
-                                            View More
-                                        </a>
+                                        View More
                                     </Button>
                                 </div>
                             </Link >
