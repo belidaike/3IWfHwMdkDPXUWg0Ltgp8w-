@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Minus, Plus } from "lucide-react";
 import Link from "next/link";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Collapsible,
   CollapsibleContent,
