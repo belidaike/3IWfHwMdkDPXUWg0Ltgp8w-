@@ -14,7 +14,7 @@ interface PostItem {
 }
 
 // Fetch the post data directly in the page component
-export const fetchPost = async (id: string): Promise<PostItem | null> => {
+const fetchPost = async (id: string): Promise<PostItem | null> => {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/postitems?id=${id}`);
         const data = await res.json();

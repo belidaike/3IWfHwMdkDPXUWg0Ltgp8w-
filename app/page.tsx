@@ -4,6 +4,7 @@ import useGetAllPostItems from '@/lib/fetch';
 import Link from 'next/link';
 import React from 'react';
 
+
 const Posts: React.FC = () => {
 
   const { loading, error, postItems } = useGetAllPostItems();
@@ -30,18 +31,16 @@ const Posts: React.FC = () => {
                 <img
                   src={item.img}
                   alt={item.pname}
-                  className="product-image"
                   width={300}
                   height={300}
+                  className="product-image"
                 />
                 <div className="product-info">
                   <h2>{item.pname}</h2><br />
                   <p>Brand: {item.brand}</p>
                   <p className='post-price'>₱{item.price}</p>
                   <Button>
-                    <Link href={item.alink} target="_blank" rel="noopener noreferrer">
-                      View More
-                    </Link>
+                    View More
                   </Button>
                 </div>
               </Link>

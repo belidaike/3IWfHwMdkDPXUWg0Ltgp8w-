@@ -11,7 +11,8 @@ export default function Tech_Gadgets() {
     if (loading) return <div className="text-center mt-5"><h1 className='text-2xl'>loading posts...</h1></div>;
     return (
         <>
-            <h2>Tech and Gadgets</h2>
+            <div className="mt-5"><h2 className='text-2xl'>Tech and Gadgets</h2></div>
+
 
             <div className="products">
                 {postItems.length === 0 ? (
@@ -42,9 +43,7 @@ export default function Tech_Gadgets() {
                                     <p>Brand: {item.brand}</p>
                                     <p className='post-price'>₱{item.price}</p>
                                     <Button>
-                                        <a href={item.alink} target="_blank" rel="noopener noreferrer">
-                                            View More
-                                        </a>
+                                        View More
                                     </Button>
                                 </div>
                             </Link>

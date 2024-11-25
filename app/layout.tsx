@@ -16,7 +16,7 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: 'Shop Smartly - Your Trusted Affiliate Store',
+  title: 'Shop Smartly - Your Trusted Lazada Big Discount Website',
   description: 'Find the best deals on the latest gadgets, beauty, and home essentials.',
 };
 interface RootLayoutProps {
@@ -56,6 +56,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
             </SidebarProvider>
           </ThemeProvider>
           <Toaster />
+          <footer className="p-4 bg-gray-200 text-center dark:bg-gray-900 dark:text-white">
+            <a href="/tech-gadgets" className="mx-2">Tech Gadgets</a>
+            {/* <a href="/tech-gadgets/beauty" className="mx-2">Beauty</a> | */}
+            {/* <a href="/tech-gadgets/home-essentials" className="mx-2">Home Essentials</a> */}
+            <p>&copy; 2024 Shop Smartly. All rights reserved.</p>
+          </footer>
         </body>
       </html >
     </>

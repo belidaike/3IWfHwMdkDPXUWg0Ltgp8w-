@@ -14,7 +14,7 @@ interface PostItem {
 }
 
 // Fetch the post data directly in the page component
-export const fetchPost = async (id: string): Promise<PostItem | null> => {
+const fetchPost = async (id: string): Promise<PostItem | null> => {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/postitems?id=${id}`);
         const data = await res.json();
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 }
 
 // Post page component for dynamic post data rendering
-export default async function Smartwatch({ params }: { params: { id: string } }) {
+export default async function Smartwatche({ params }: { params: { id: string } }) {
     const postItem = await fetchPost(params.id);
 
     if (!postItem) {
@@ -69,6 +69,7 @@ export default async function Smartwatch({ params }: { params: { id: string } })
             <div className="post-details">
                 <p className="post-price">₱{postItem.price}</p>
                 <p className="post-description">{postItem.description}</p>
+
                 <Button>
                     <Link target="_blank" rel="noopener noreferrer" href={postItem.alink}>Buy Now</Link>
                 </Button>
