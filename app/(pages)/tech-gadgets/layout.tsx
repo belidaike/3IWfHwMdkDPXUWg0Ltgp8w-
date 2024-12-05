@@ -7,7 +7,7 @@ export const metadata: Metadata = {
         title: "Tech and Gadgets",
         description: "Discover trending gadgets and tech products with our trusted reviews and deals.",
         images: "/default-og-image.jpg", // Replace with a default OG image path
-        url: "https://yourwebsite.com/tech-gadgets", // Adjust to match your site's URL
+        url: "https://5hop5martly.vercel.app/tech-gadgets", // Adjust to match your site's URL
     },
 
 };
