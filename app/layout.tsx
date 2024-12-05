@@ -16,8 +16,15 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: 'Shop Smartly - Your Trusted Lazada Big Discount Website',
+  title: {
+    default: "Shop Smartly - Your Trusted Lazada Big Discount Website",
+    template: "%s | Shop Smartly - Your Trusted Lazada Big Discount Website"
+  },
   description: 'Find the best deals on the latest gadgets, beauty, and home essentials.',
+  openGraph: {
+    siteName: "5hop5marty",
+    url: "https://yourwebsite.com/tech-gadgets",
+  }
 };
 interface RootLayoutProps {
   children: React.ReactNode;
