@@ -1,18 +1,15 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: "Smartwatches - Shop Smartly",
+    title: "Smartwatches",
     description: "Stay connected and track your fitness with the latest smartwatches. Compare features and shop smartly with trusted links.",
     openGraph: {
-        title: "Smartwatches - Shop Smartly",
+        title: "Smartwatches",
         description: "Find the perfect smartwatch for your needs with in-depth reviews and the best deals.",
         images: "/smartwatches-og-image.jpg", // Replace with a relevant image
         url: `https://5hop5martly.vercel.app/tech-gadgets/smartwatches`,
     },
-    // twitter: {
-    //     card: "summary_large_image",
-    //     site: "@yourTwitterHandle", // Replace with your site's Twitter handle
-    // },
+
 };
 
 interface SmartwatchesLayoutProps {

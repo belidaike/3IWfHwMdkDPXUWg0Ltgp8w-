@@ -31,13 +31,13 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
     const postItem = await fetchPost(params.id);
 
     return {
-        title: `${postItem?.pname || "Product"} - Shop Smartly`,
+        title: `${postItem?.pname || "Product"}`,
         description: `Buy ${postItem?.pname || "Product"} by ${postItem?.brand}. Explore the best deals and reviews.`,
         openGraph: {
-            title: `${postItem?.pname || "Product"} - Shop Smartly`,
+            title: `${postItem?.pname || "Product"}`,
             description: `Buy ${postItem?.pname || "Product"} by ${postItem?.brand}. Explore the best deals and reviews.`,
             images: postItem?.img || "/default-og-image.jpg",
-            url: `https://5hop5martly.vercel.app/tech-gadgets/${postItem?._id}`,
+            url: `https://5hop5martly.vercel.app/tech-gadgets/audio-headphones/${postItem?._id}`,
         },
     };
 }

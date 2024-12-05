@@ -286,3 +286,9 @@ footer a:hover {
 footer {
   width: 100%;
 }
+
+@media screen and (max-width: 480px) {
+  .post-header {
+    flex-direction: column;
+  }
+}

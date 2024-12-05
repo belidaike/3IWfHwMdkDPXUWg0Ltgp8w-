@@ -9,10 +9,7 @@ export const metadata: Metadata = {
         images: "/default-og-image.jpg", // Replace with a default OG image path
         url: `https://5hop5martly.vercel.app/tech-gadgets/mobilephones`,
     },
-    // twitter: {
-    //     card: "summary_large_image",
-    //     site: "@yourTwitterHandle", // Replace with your site's Twitter handle
-    // },
+
 };
 
 interface RootLayoutProps {
