@@ -3,6 +3,7 @@ import useGetPostItems from '@/lib/fetchAllCategory';
 import React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 
 export default function Tech_Gadgets() {
@@ -30,12 +31,14 @@ export default function Tech_Gadgets() {
                                             ? `/tech-gadgets/audio-headphones/${item._id}`
                                             : `/tech-gadgets/smartwatches/${item._id}`
                             }>
-                                <img
+                                <Image
                                     src={item.img}
                                     alt={item.pname}
                                     className="product-image"
                                     width={300}
                                     height={300}
+                                    loading="lazy"
+                                    placeholder='blur'
                                 />
                                 <div className="product-info">
                                     <h2>{item.pname}</h2>

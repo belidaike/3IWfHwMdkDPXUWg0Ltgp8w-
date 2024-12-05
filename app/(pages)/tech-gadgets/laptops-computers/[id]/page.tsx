@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface PostItem {
     _id: string;
@@ -54,10 +55,12 @@ export default async function Laptop_Computer({ params }: { params: { id: string
         <div className="post-container">
             {/* Product Image and Details */}
             <div className="post-header">
-                <img
+                <Image
                     src={postItem.img}
                     alt={postItem.pname}
                     className="post-image"
+                    loading="lazy"
+                    placeholder='blur'
                 />
                 <div className="post-info">
                     <h1 className="post-title">{postItem.pname}</h1>
