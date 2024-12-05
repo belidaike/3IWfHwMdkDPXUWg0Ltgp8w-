@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   description: 'Find the best deals on the latest gadgets, beauty, and home essentials.',
   openGraph: {
     siteName: "5hop5marty",
-    url: "https://yourwebsite.com/tech-gadgets",
+    url: "https://5hop5martly.vercel.app/",
   }
 };
 interface RootLayoutProps {
