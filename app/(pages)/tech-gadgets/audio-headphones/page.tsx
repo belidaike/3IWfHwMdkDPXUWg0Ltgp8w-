@@ -3,6 +3,7 @@ import useGetPostItems from '@/lib/fetchData';
 import React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 
 export default function Audio_Headphones() {
@@ -24,7 +25,7 @@ export default function Audio_Headphones() {
                     postItems.map((item) => (
                         <div key={item._id} className="product-card">
                             <Link href={`/tech-gadgets/audio-headphones/${item._id}`}>
-                                <img src={item.img} alt={item.pname} className="product-image" />
+                                <Image src={item.img} loading="lazy" alt={item.pname} placeholder='blur' className="product-image" />
                                 <div className="product-info">
                                     <h2>{item.pname}</h2>
                                     <p className='post-price'>₱{item.price}</p>

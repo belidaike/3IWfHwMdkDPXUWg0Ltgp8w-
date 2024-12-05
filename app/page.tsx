@@ -1,9 +1,9 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import useGetAllPostItems from '@/lib/fetch';
+import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-
 
 const Posts: React.FC = () => {
 
@@ -28,12 +28,13 @@ const Posts: React.FC = () => {
                       ? `/tech-gadgets/audio-headphones/${item._id}`
                       : `/tech-gadgets/smartwatches/${item._id}`
               }>
-                <img
+                <Image
                   src={item.img}
                   alt={item.pname}
                   width={300}
                   height={300}
                   className="product-image"
+                  loading="lazy"
                 />
                 <div className="product-info">
                   <h2>{item.pname}</h2><br />
@@ -44,11 +45,11 @@ const Posts: React.FC = () => {
                   </Button>
                 </div>
               </Link>
-            </div>
+            </div >
           ))
         )}
 
-      </div>
+      </div >
     </>
   );
 };
